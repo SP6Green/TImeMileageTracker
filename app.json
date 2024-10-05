@@ -2,6 +2,25 @@
   "expo": {
     "name": "timemileagetracker",
     "slug": "timemileagetracker",
-    "version": "1.0.0"
-  }
+    "version": "1.0.0",
+    "orientation": "portrait"
+  },
+  "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "YOUR_GOOGLE_MAPS_API_KEY"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/image.png",
+        "backgroundColor": "#FFFFFF"
+     },
+      "config": {
+        "googleMaps": {
+          "apiKey": "YOUR_GOOGLE_MAPS_API_KEY"
+        }
+      }
+    }
 }
