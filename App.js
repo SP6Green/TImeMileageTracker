@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import MapViewDirections from 'react-native-maps-directions';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 export default function App() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [destination, setDestination] = useState(null);
+  
+  const GOOGLE_MAPS_APIKEY = '';
 
   useEffect(() => {
     (async () => {
@@ -62,7 +67,40 @@ export default function App() {
             }}
             title="You are here"
           />
+          {destination && (
+            <MapViewDirections
+              origin={{latitude: location.latitude, longitude: location.longitude}}
+              destination={destination}
+              apikey= {GOOGLE_MAPS_APIKEY}
+              strokeWidth={3}
+              strokeColor='hotpink'
+            />
+          )}
         </MapView>
+        <GooglePlacesAutocomplete
+          placeholder='Search for a Destination'
+          fetchDetails={true}
+          onPress={(data, details=null) => {
+            const {lat, lon} = details.geometry.location;
+            setDestination({
+              latitude: lat,
+              longitude: lon,
+            });
+          }}
+          query ={{
+            key: GOOGLE_MAPS_APIKEY,
+            language: 'en',
+          }}
+          styles={{
+            container: {
+              position: 'absolute',
+              width: '100%',
+              zIndex: 1,
+            },
+            listView: { backgroundColor: 'white'},
+          }} 
+        />
+        
         <View style={styles.coordinatesContainer}>
           <Text style={styles.coordinatesText}>
             Latitude: {location.latitude}, Longitude: {location.longitude}
